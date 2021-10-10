@@ -2,11 +2,13 @@ import React, { useState } from "react";
 
 import imgLogo from "../../img/pokemon-logo.png";
 import imgdefault from "../../img/pokemon-default.jpg";
+import imgLoading from "../../img/gif_loading.gif";
 
 import * as S from "./styles";
 
 export const Home = () => {
   const [pokemon, setPokemon] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const typePokemonStyle = (type) =>
     ({
@@ -35,15 +37,18 @@ export const Home = () => {
   const randorInt = () => parseInt(Math.random() * (1118 - 1) + 1);
 
   const getPokemon = async () => {
+    setLoading(true);
+    setPokemon(null);
     const intPokemon = randorInt();
     try {
       const result = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${intPokemon}`
       );
       const person = await result.json();
+      if (result) setLoading(false);
       return setPokemon(person);
     } catch (error) {
-      getPokemon()
+      getPokemon();
     }
   };
 
@@ -58,37 +63,48 @@ export const Home = () => {
         <S.Section>
           <S.ImgLogo src={imgLogo} alt="Logo" />
         </S.Section>
-        <S.Section>
-          <S.ImgPokemon
-            src={
-              pokemon?.sprites?.other?.dream_world?.front_default ||
-              pokemon?.sprites?.other["official-artwork"]?.front_default ||
-              imgdefault
-            }
-          />
-          {pokemon && (
-            <S.CardInfo>
-              <S.TextInfo size={32}>{pokemon?.species?.name || ""}</S.TextInfo>
-            </S.CardInfo>
-          )}
-          {pokemon && (
-            <S.CardInfo>
-              <S.TextInfo size={12} mRight={18}>
-                {"TIPO:"}
-              </S.TextInfo>
-              <S.TextInfo size={12} mRight={6}>
-                {pokemon?.types?.[0].type?.name || ""}
-              </S.TextInfo>
-              {pokemon?.types?.[1]?.type?.name && (
-                <S.TextInfo size={12}>
-                  {`/ ${pokemon?.types?.[1]?.type?.name || ""}`}
-                </S.TextInfo>
+        <S.Section height={"442px"}>
+          {!loading && (
+            <>
+              <S.ImgPokemon
+                src={
+                  pokemon?.sprites?.other?.dream_world?.front_default ||
+                  pokemon?.sprites?.other["official-artwork"]?.front_default ||
+                  imgdefault
+                }
+              />
+              {pokemon && (
+                <S.CardInfo>
+                  <S.TextInfo size={32}>
+                    {pokemon?.species?.name || ""}
+                  </S.TextInfo>
+                </S.CardInfo>
               )}
-            </S.CardInfo>
+              {pokemon && (
+                <S.CardInfo>
+                  <S.TextInfo size={12} mRight={18}>
+                    {"TIPO:"}
+                  </S.TextInfo>
+                  <S.TextInfo size={12} mRight={6}>
+                    {pokemon?.types?.[0].type?.name || ""}
+                  </S.TextInfo>
+                  {pokemon?.types?.[1]?.type?.name && (
+                    <S.TextInfo size={12}>
+                      {`/ ${pokemon?.types?.[1]?.type?.name || ""}`}
+                    </S.TextInfo>
+                  )}
+                </S.CardInfo>
+              )}
+            </>
+          )}
+          {loading && (
+            <>
+              <S.ImgLoading src={imgLoading} />
+            </>
           )}
         </S.Section>
         <S.Section>
-          <S.ButtomNext onClick={getPokemon}>
+          <S.ButtomNext onClick={getPokemon} disabled={loading}>
             {"Busque um Pokémon!!"}
           </S.ButtomNext>
         </S.Section>

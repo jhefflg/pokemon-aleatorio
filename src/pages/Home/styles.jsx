@@ -20,14 +20,17 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  align-items: center;
-  justify-content: space-around;
   padding: 22px;
   margin: 0;
 `;
 
 export const Section = styled.section`
   text-align: center;
+  display: grid;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: ${(props) => props.height || "auto"};
 `;
 
 export const ImgLogo = styled.img`
@@ -43,6 +46,13 @@ export const ImgPokemon = styled.img`
   object-fit: contain;
 `;
 
+export const ImgLoading = styled.img`
+  pointer-events: none;
+  margin: 18px 0;
+  height: 100px;
+  object-fit: contain;
+`;
+
 export const TextInfo = styled.span`
   color: #2874a6;
   font-size: ${(props) => props.size || 16}px;
@@ -52,7 +62,6 @@ export const TextInfo = styled.span`
 
 export const CardInfo = styled.div`
   border: none;
-  background-color: #fff;
   border-radius: 12px;
   margin: 8px 0;
   padding: 8px 0;
@@ -64,8 +73,9 @@ export const ButtomNext = styled.div`
   margin-top: 32px;
   padding: 12px;
   border-radius: 12px;
-  background-color: #049974;
+  background-color: ${(props) => (props.disabled ? "#D5D8DC" : "#049974")};
   text-align: center;
   color: #ffff;
   font-weight: bold;
+  pointer-events: ${(props) => (props.disabled ? "none" : "normal")};
 `;
