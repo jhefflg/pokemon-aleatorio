@@ -43,7 +43,6 @@ export const Home = () => {
       const person = await result.json();
       return setPokemon(person);
     } catch (error) {
-        console.log('Error ==> ', error);
       getPokemon()
     }
   };
