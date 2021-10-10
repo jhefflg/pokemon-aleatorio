@@ -45,7 +45,7 @@ export const Home = () => {
         `https://pokeapi.co/api/v2/pokemon/${intPokemon}`
       );
       const person = await result.json();
-      if (result) setLoading(false);
+      setLoading(false);
       return setPokemon(person);
     } catch (error) {
       getPokemon();
@@ -63,7 +63,7 @@ export const Home = () => {
         <S.Section>
           <S.ImgLogo src={imgLogo} alt="Logo" />
         </S.Section>
-        <S.Section height={"442px"}>
+        <S.Section>
           {!loading && (
             <>
               <S.ImgPokemon

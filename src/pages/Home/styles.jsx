@@ -41,7 +41,7 @@ export const ImgLogo = styled.img`
 export const ImgPokemon = styled.img`
   pointer-events: none;
   margin: 18px 0;
-  max-width: 330px;
+  max-width: 300px;
   height: 300px;
   object-fit: contain;
 `;
